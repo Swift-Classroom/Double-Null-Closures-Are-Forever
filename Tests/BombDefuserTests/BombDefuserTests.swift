@@ -1,66 +1,43 @@
-import XCTest
+import Testing
 
-@testable import BombDefuser
-
-final class BombDefuserTests: XCTestCase {
- 
-  let stringify = { (tuple: (String, String, String)) in "\(tuple)" }
-
-  func testFlip() {
-    let expected = ("Dabba", "Yabba", "Doo")
-    let got = flip(("Yabba", "Dabba", "Doo"))
-    XCTAssertEqual(
-      stringify(expected), stringify(got),
-      "flip((\"Yabba\", \"Dabba\", \"Doo\"): Expected \(expected), got \(got)")
-  }
-
-  func testRotate() throws {
+struct BombDefuserTests {
     
-    let expected = ("Dooby", "Doo", "Scooby")
-    let got = rotate(("Scooby", "Dooby", "Doo"))
-    XCTAssertEqual(
-      stringify(expected), stringify(got),
-      "rotate((\"Scooby\", \"Dooby\", \"Doo\"): Expected \(expected), got \(got)")
-  }
-
-  func testShuffle1() throws {
+    let stringify = { (tuple: (String, String, String)) in "\(tuple)" }
     
-    let wires = ("Red", "Yellow", "Black")
-    let shuffle = makeShuffle(flipper: flip, rotator: rotate)
-    let expected = ("Yellow", "Black", "Red")
-    let got = shuffle(113, wires)
-    XCTAssertEqual(
-      stringify(expected), stringify(got),
-      "shuffle(113, (\"Red\", \"Yellow\", \"Black\")): Expected \(expected), got \(got)")
-  }
-
-  func testShuffle2() throws {
+    @Test func testFlip() async throws {
+        let expected = ("Dabba", "Yabba", "Doo")
+        let got = flip(("Yabba", "Dabba", "Doo"))
+        #expect(stringify(expected) == stringify(got))
+    }
     
-    let wires = ("Purple", "Cyan", "Marigold")
-    let shuffle = makeShuffle(flipper: flip, rotator: rotate)
-    let expected = ("Marigold", "Cyan", "Purple")
-    let got = shuffle(253, wires)
-    XCTAssertEqual(
-      stringify(expected), stringify(got),
-      "shuffle(253, (\"Purple\", \"Cyan\", \"Marigold\")): Expected \(expected), got \(got)")
-  }
-
-  func testShuffle3() throws {
+    @Test func testRotate() async throws {
+        let expected = ("Dooby", "Doo", "Scooby")
+        let got = rotate(("Scooby", "Dooby", "Doo"))
+        #expect(stringify(expected) == stringify(got))
+    }
     
-    let wires = ("Brown", "Orange", "White")
-    let shuffle = makeShuffle(flipper: flip, rotator: rotate)
-    let expected = ("Brown", "Orange", "White")
-    let got = shuffle(0, wires)
-    XCTAssertEqual(
-      stringify(expected), stringify(got),
-      "shuffle(0, (\"Brown\", \"Orange\", \"White\")): Expected \(expected), got \(got)")
-  }
+    @Test func testShuffle1() async throws {
+        let wires = ("Red", "Yellow", "Black")
+        let shuffle = makeShuffle(flipper: flip, rotator: rotate)
+        let expected = ("Yellow", "Black", "Red")
+        let got = shuffle(113, wires)
+        #expect(stringify(expected) == stringify(got))
+    }
+    
+    @Test func testShuffle2() async throws {
+        let wires = ("Purple", "Cyan", "Marigold")
+        let shuffle = makeShuffle(flipper: flip, rotator: rotate)
+        let expected = ("Marigold", "Cyan", "Purple")
+        let got = shuffle(253, wires)
+        #expect(stringify(expected) == stringify(got))
+    }
+    
+    @Test func testShuffle3() async throws {
+        let wires = ("Brown", "Orange", "White")
+        let shuffle = makeShuffle(flipper: flip, rotator: rotate)
+        let expected = ("Brown", "Orange", "White")
+        let got = shuffle(0, wires)
+        #expect(stringify(expected) == stringify(got))
+    }
 
-  static var allTests = [
-    ("testFlip", testFlip),
-    ("testRotate", testRotate),
-    ("testShuffle1", testShuffle1),
-    ("testShuffle2", testShuffle2),
-    ("testShuffle3", testShuffle3),
-  ]
 }
